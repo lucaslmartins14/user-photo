@@ -1,4 +1,4 @@
-package com.example.users_and_photos.ui.fragments.home
+package com.example.users_and_photos.ui.fragments.user
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.example.users_and_photos.R
 import com.example.users_and_photos.model.entity.User
 import com.example.users_and_photos.retrofit.RetrofitInitializer
+import com.example.users_and_photos.ui.PhotoAdapter
 import com.example.users_and_photos.ui.UserAdapter
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers

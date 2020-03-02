@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.users_and_photos.R
 import com.example.users_and_photos.model.entity.User
@@ -25,6 +26,9 @@ class UserAdapter(private val context: Context) :
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         holder.bindView(UserList.get(position))
+        holder.cvUser.setOnClickListener { v->
+            Toast.makeText(context,""+ UserList.get(position).name,Toast.LENGTH_LONG).show()
+        }
     }
 
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -33,6 +37,7 @@ class UserAdapter(private val context: Context) :
         val tvEmail = itemView.tv_email
         val tvCompanyName = itemView.tv_company_name
         val tvCity = itemView.tv_city
+        val cvUser = itemView.cv_user
         fun bindView(user: User) {
             tvId.text = user.id.toString()
             tvName.text = user.name
