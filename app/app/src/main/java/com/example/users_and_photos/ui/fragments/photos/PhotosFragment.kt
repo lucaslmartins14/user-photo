@@ -4,24 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.example.users_and_photos.R
-import com.example.users_and_photos.model.entity.User
 import com.example.users_and_photos.retrofit.RetrofitInitializer
 import com.example.users_and_photos.ui.PhotoAdapter
-import com.example.users_and_photos.ui.UserAdapter
-import com.example.users_and_photos.viewmodel.PhotosViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
-import java.util.*
-import kotlin.Comparator
 
 class PhotosFragment : Fragment() {
 
@@ -43,8 +38,8 @@ class PhotosFragment : Fragment() {
 
         val callPhotos = RetrofitInitializer().photoService()!!.getPhotos()
 
-//            lifecycleScope.launch(Dispatchers.IO){
-//                delay(500)
+            lifecycleScope.launch(Dispatchers.IO){
+                delay(500)
         callPhotos.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ photos->
             var x = photos
             adapter.setPhotos(photos)
@@ -53,7 +48,7 @@ class PhotosFragment : Fragment() {
         },{
             adapter.notifyDataSetChanged()
         })
-//            }
+            }
         return root
     }
 }

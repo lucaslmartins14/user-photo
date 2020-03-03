@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -13,6 +14,9 @@ import com.example.users_and_photos.model.entity.User
 import com.example.users_and_photos.retrofit.RetrofitInitializer
 import com.example.users_and_photos.ui.PhotoAdapter
 import com.example.users_and_photos.ui.UserAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.util.*
@@ -38,8 +42,8 @@ class UsersFragment : Fragment() {
 
         val callUser = RetrofitInitializer().userService()!!.getUsers()
 
-//            lifecycleScope.launch(Dispatchers.IO){
-//                delay(500)
+            lifecycleScope.launch(Dispatchers.IO){
+                delay(500)
                 callUser.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ users->
                     adapter.setUsers(users)
                     Collections.sort(users,
@@ -49,7 +53,7 @@ class UsersFragment : Fragment() {
                 },{
                     adapter.notifyDataSetChanged()
                 })
-//            }
+            }
         return root
     }
 }

@@ -1,6 +1,7 @@
 package com.example.users_and_photos.ui
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.users_and_photos.R
 import com.example.users_and_photos.model.entity.User
+import com.example.users_and_photos.ui.activities.PostsActivity
 import kotlinx.android.synthetic.main.item_user.view.*
 
 class UserAdapter(private val context: Context) :
@@ -27,13 +29,15 @@ class UserAdapter(private val context: Context) :
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         holder.bindView(UserList.get(position))
         holder.cvUser.setOnClickListener { v->
-            Toast.makeText(context,""+ UserList.get(position).name,Toast.LENGTH_LONG).show()
+            val intent = Intent(context, PostsActivity::class.java)
+            intent.putExtra("id", UserList.get(position).id.toString())
+            context.startActivity(intent)
         }
     }
 
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvId = itemView.tv_id
-        val tvName = itemView.tv_name
+        val tvId = itemView.tv_title
+        val tvName = itemView.tv_body
         val tvEmail = itemView.tv_email
         val tvCompanyName = itemView.tv_company_name
         val tvCity = itemView.tv_city
