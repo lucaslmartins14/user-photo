@@ -13,4 +13,6 @@ class RetrofitInitializer {
     fun userService(): UserService? = retrofit.create(UserService::class.java)
 
     fun photoService(): PhotoService? = retrofit.create(PhotoService::class.java)
+
+    fun postService(): PostService? = retrofit.create(PostService::class.java)
 }

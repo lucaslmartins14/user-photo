@@ -4,17 +4,14 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.ImageView
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.users_and_photos.R
-
 import com.example.users_and_photos.model.entity.Photo
-import com.example.users_and_photos.model.entity.User
-import com.squareup.picasso.Picasso
+import com.example.users_and_photos.utils.CustomPicasso
 import kotlinx.android.synthetic.main.item_photo.view.*
-import kotlinx.android.synthetic.main.item_user.view.*
+
 
 class PhotoAdapter(private val context: Context) :
     RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder>() {
@@ -32,17 +29,26 @@ class PhotoAdapter(private val context: Context) :
 
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
         holder.bindView(PhotoList.get(position))
-//        holder.cvUser.setOnClickListener { v->
-//            Toast.makeText(context,""+ PhotoList.get(position).name, Toast.LENGTH_LONG).show()
-//        }
+        holder.cvPhoto.setOnClickListener { v->
+            val dialogBuilder =
+                AlertDialog.Builder(context)
+            val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val dialogView: View = inflater.inflate(R.layout.dialog_zoom, null)
+            dialogBuilder.setView(dialogView)
+
+            val imageview = dialogView.findViewById<View>(R.id.iv_zoom) as ImageView
+            CustomPicasso.with(context).load(PhotoList.get(position).url).into(imageview)
+            val alertDialog = dialogBuilder.create()
+            alertDialog.show()
+        }
     }
 
     class PhotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val ivPhoto = itemView.iv_photo
+        val cvPhoto = itemView.cv_photo
         fun bindView(photo: Photo) {
-        //    Glide.with(itemView.context).load("https://avatars3.githubusercontent.com/u/32689599?v=4").into(ivPhoto)
-            Picasso.with(itemView.context).load("https://via.placeholder.com/150/92c952").into(ivPhoto)
-var x = 0
+            CustomPicasso.with(itemView.context).load(photo.url).into(ivPhoto)
+
         }
     }
 }
